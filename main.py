@@ -28,17 +28,21 @@ sprite.move_bottom_to(leftdownchicken,top2)
 sprite.move_bottom_to(rightupchicken,top3)
 sprite.move_bottom_to(rightdownchicken,top4)
 a=None
-
+fall=0
 
 def down():
+    global fall
+    fall = 0
     shelfright=sprite.get_right(leftupshelf)
     egg_left=sprite.get_left(egg)
-    if egg_left>shelfright:
+    if egg_left+4>shelfright:
+        fall=1
         return
     while not sprite.is_collide_sprite(egg,leftupshelf):
         sprite.move(egg,0,1)
     else:
         sprite.move(egg,0,-1)
+
 
 
 
@@ -52,11 +56,17 @@ def eggf ():
 @wrap.always(200)
 def eggo ():
     global egg
-    if a ==1:
+    if a ==1 and fall==0:
         sprite.move(egg,5,0)
         ang = sprite.get_angle(egg)
         sprite.set_angle(egg,ang+15)
         down()
+    else: sprite.move(egg,0,5)
+
+
+
+
+
 
 eggf()
 
