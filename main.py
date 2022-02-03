@@ -28,47 +28,40 @@ sprite.move_bottom_to(leftdownchicken,top2)
 sprite.move_bottom_to(rightupchicken,top3)
 sprite.move_bottom_to(rightdownchicken,top4)
 a=None
-fall=0
 
-def down():
-    global fall
-    fall = 0
-    shelfright=sprite.get_right(leftupshelf)
-    egg_left=sprite.get_left(egg)
+def prizemli_na_polky(e,s):
+    shelfright=sprite.get_right(s)
+    egg_left=sprite.get_left(e)
     if egg_left+4>shelfright:
-        fall=1
-        return
-    while not sprite.is_collide_sprite(egg,leftupshelf):
-        sprite.move(egg,0,1)
+        return False
+
+    while not sprite.is_collide_sprite(e,s):
+        sprite.move(e,0,1)
     else:
-        sprite.move(egg,0,-1)
+        sprite.move(e,0,-1)
+    return True
 
 
+egg=sprite.add("egg",5,5,"egg")
+egg2=sprite.add("pacman",5,5,"player2")
 
+def move_egg(egg,shelf):
 
-#@wrap.always()
-def eggf ():
-    global a,egg
-    a=randint(1,1)
-    if a ==1:
-        egg=sprite.add("egg",5,5,"egg")
+    if prizemli_na_polky(egg, shelf):
+        sprite.move(egg, 5, 0)
+        ang = sprite.get_angle(egg)
+        sprite.set_angle(egg, ang + 15)
+        prizemli_na_polky(egg, shelf)
+    else:
+        sprite.move(egg, 0, 5)
+
 
 @wrap.always(200)
-def eggo ():
-    global egg
-    if a ==1 and fall==0:
-        sprite.move(egg,5,0)
-        ang = sprite.get_angle(egg)
-        sprite.set_angle(egg,ang+15)
-        down()
-    else: sprite.move(egg,0,5)
+def eggmover ():
+    global egg,egg2
 
-
-
-
-
-
-eggf()
+    move_egg(egg,leftdownshelf)
+    move_egg(egg2,leftdownshelf)
 
 
 
