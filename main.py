@@ -29,6 +29,7 @@ sprite.move_bottom_to(rightupchicken,top3)
 sprite.move_bottom_to(rightdownchicken,top4)
 a=None
 
+egglist=[]
 def prizemli_na_polky(e,s):
     shelfright=sprite.get_right(s)
     egg_left=sprite.get_left(e)
@@ -56,12 +57,19 @@ def move_egg(egg,shelf):
         sprite.move(egg, 0, 5)
 
 
-@wrap.always(200)
-def eggmover ():
-    global egg,egg2
+# @wrap.always(200)
+# def eggmover ():
+#     global egg,egg2
+#     for egg in egglist:
+#         random.randint(1,2):
+#         move_egg(egg,leftupshelf)
 
-    move_egg(egg,leftdownshelf)
-    move_egg(egg2,leftdownshelf)
+@wrap.always(2000)
+def eggspawn():
+
+    egg= sprite.add("egg", 5, 5, "egg")
+    egglist.append(egg)
+
 
 
 
