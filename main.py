@@ -30,6 +30,9 @@ sprite.move_bottom_to(rightdownchicken,top4)
 a=None
 
 egglist=[]
+egglist2=[]
+egglist3=[]
+egglist4=[]
 def prizemli_na_polky(e,s):
     shelfright=sprite.get_right(s)
     egg_left=sprite.get_left(e)
@@ -43,8 +46,6 @@ def prizemli_na_polky(e,s):
     return True
 
 
-egg=sprite.add("egg",5,5,"egg")
-egg2=sprite.add("pacman",5,5,"player2")
 
 def move_egg(egg,shelf):
 
@@ -57,18 +58,68 @@ def move_egg(egg,shelf):
         sprite.move(egg, 0, 5)
 
 
-# @wrap.always(200)
-# def eggmover ():
-#     global egg,egg2
-#     for egg in egglist:
-#         random.randint(1,2):
-#         move_egg(egg,leftupshelf)
+@wrap.always(200)
+def eggmover ():
+    global egg,egg2
+    for egg in egglist:
+        move_egg(egg,leftupshelf)
+    for egg in egglist2:
+        move_egg(egg, leftdownshelf)
+    for egg in egglist3:
+        move_egg2(egg, rightupshelf)
+    for egg in egglist4:
+        move_egg2(egg, rightdownshelf)
+
+
+def prizemli_na_polky2(e,s):
+    shelfleft=sprite.get_left(s)
+    egg_right=sprite.get_right(e)
+    if egg_right-4<shelfleft:
+        return False
+
+    while not sprite.is_collide_sprite(e,s):
+        sprite.move(e,0,1)
+    else:
+        sprite.move(e,0,-1)
+    return True
+
+def move_egg2(egg,shelf):
+
+    if prizemli_na_polky2(egg, shelf):
+        sprite.move(egg, -5, 0)
+        ang = sprite.get_angle(egg)
+        sprite.set_angle(egg, ang - 15)
+        prizemli_na_polky(egg, shelf)
+    else:
+        sprite.move(egg, 0, 5)
+
 
 @wrap.always(2000)
 def eggspawn():
 
-    egg= sprite.add("egg", 5, 5, "egg")
-    egglist.append(egg)
+    lists=random.choice([egglist,egglist2,egglist3,egglist4])
+    if lists is egglist or lists is egglist2:
+        x,y=[5,5]
+    else:
+        x,y=[635,5]
+    egg = sprite.add("egg", x, y, "egg")
+    lists.append(egg)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
