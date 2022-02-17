@@ -1,10 +1,14 @@
 import time,wrap,random
 wrap.add_sprite_dir("mysprites")
-from wrap import world,sprite
+from wrap import world,sprite,sprite_text
 from random import randint
 
 world.create_world(640,480)
 world.set_back_color(0, 150, 150)
+amount=sprite.add_text("eggs:",320,50)
+amountegg=0
+sprite_text.set_text(amount,"eggs: " + str(amountegg))
+superegg= egg = sprite.add("egg",320 ,80, "egg")
 rightupchicken=sprite.add("chicken",637,104,"chicken")
 rightdownchicken=sprite.add("chicken",637,226,"chicken")
 leftupchicken=sprite.add("chicken",5,104,"chicken")
@@ -13,12 +17,12 @@ rightupshelf=sprite.add("shelf", 550,130,"shelf")
 rightdownshelf=sprite.add("shelf", 550,250,"shelf")
 leftupshelf=sprite.add("shelf", 90,130,"shelf")
 leftdownshelf=sprite.add("shelf", 90,250,"shelf")
-wu=sprite.add("woolfs",320,260,"woolfup")
+woolf=sprite.add("woolfs",320,220,"woolfdown")
+sprite.set_reverse_x(woolf,True)
 sprite.set_reverse_x(leftupshelf,True)
 sprite.set_reverse_x(leftdownshelf,True)
 sprite.set_reverse_x(leftupchicken,True)
 sprite.set_reverse_x(leftdownchicken,True)
-sprite.set_size_percent(wu,150,150)
 top1=sprite.get_top(leftupshelf)
 top2=sprite.get_top(leftdownshelf)
 top3=sprite.get_top(rightupshelf)
@@ -33,6 +37,24 @@ egglist=[]
 egglist2=[]
 egglist3=[]
 egglist4=[]
+
+@wrap.on_key_down(wrap.K_LEFT)
+def move_left():
+    sprite.set_reverse_x(woolf,False)
+
+@wrap.on_key_down(wrap.K_RIGHT)
+def move_right():
+    sprite.set_reverse_x(woolf,True)
+
+@wrap.on_key_down(wrap.K_DOWN)
+def move_down():
+    sprite.set_costume(woolf,"woolfdown")
+
+@wrap.on_key_down(wrap.K_UP)
+def move_up():
+    sprite.set_costume(woolf,"woolfup")
+
+
 def prizemli_na_polky(e,s):
     shelfright=sprite.get_right(s)
     egg_left=sprite.get_left(e)
@@ -106,22 +128,15 @@ def eggspawn():
     lists.append(egg)
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+@wrap.always()
+def basket():
+    global egg,amountegg
+    for egg in egglist:
+        shelfright = sprite.get_right(leftupshelf)
+        egg_left = sprite.get_left(egg)
+        if sprite.get_y(egg) > sprite.get_bottom(leftupshelf)+10:
+            sprite.remove(egg)
+        if egg_left+4 > shelfright and sprite.get_costume(woolf)=="woolfup" and not sprite.get_reverse_x(woolf):
+            sprite.remove(egg)
+            amountegg+=1
 
