@@ -5,10 +5,10 @@ from random import randint
 
 world.create_world(640,480)
 world.set_back_color(0, 150, 150)
-amount=sprite.add_text("eggs:",320,50)
+amount=sprite.add_text("eggs:",320,10)
 amountegg=0
 sprite_text.set_text(amount,"eggs: " + str(amountegg))
-superegg= egg = sprite.add("egg",320 ,80, "egg")
+superegg= egg = sprite.add("egg",320 ,40, "egg")
 rightupchicken=sprite.add("chicken",637,104,"chicken")
 rightdownchicken=sprite.add("chicken",637,226,"chicken")
 leftupchicken=sprite.add("chicken",5,104,"chicken")
@@ -18,6 +18,7 @@ rightdownshelf=sprite.add("shelf", 550,250,"shelf")
 leftupshelf=sprite.add("shelf", 90,130,"shelf")
 leftdownshelf=sprite.add("shelf", 90,250,"shelf")
 woolf=sprite.add("woolfs",320,220,"woolfdown")
+sprite.set_size_percent(woolf,120,120)
 sprite.set_reverse_x(woolf,True)
 sprite.set_reverse_x(leftupshelf,True)
 sprite.set_reverse_x(leftdownshelf,True)
@@ -124,19 +125,30 @@ def eggspawn():
         x,y=[5,5]
     else:
         x,y=[635,5]
-    egg = sprite.add("egg", x, y, "egg")
-    lists.append(egg)
+    egggame = sprite.add("egg", x, y, "egg")
+    lists.append(egggame)
 
 
 @wrap.always()
 def basket():
-    global egg,amountegg
+    global egg,amountegg,egglist
     for egg in egglist:
-        shelfright = sprite.get_right(leftupshelf)
-        egg_left = sprite.get_left(egg)
-        if sprite.get_y(egg) > sprite.get_bottom(leftupshelf)+10:
-            sprite.remove(egg)
-        if egg_left+4 > shelfright and sprite.get_costume(woolf)=="woolfup" and not sprite.get_reverse_x(woolf):
-            sprite.remove(egg)
-            amountegg+=1
+        eggwhich("woolfup",False)
+    for egg in egglist2:
+        eggwhich("woolfdown", False)
+    for egg in egglist3:
+        eggwhich("woolfup", True)
+    for egg in egglist4:
+        eggwhich("woolfdown", True)
+
+
+def eggwhich(sprite,reverse):
+    global egggame,amountegg,egglist
+    if sprite.is_collide_sprite(egggame,woolf) and sprite.get_costume(woolf)==sprite and sprite.get_reverse_x(woolf,reverse) and sprite.is_visible(egggame):
+        sprite.hide(egggame)
+        amountegg+=1
+        sprite_text.set_text(amount, "eggs: " + str(amountegg))
+
+
+
 
