@@ -60,6 +60,7 @@ def prizemli_na_polky(e,s):
     shelfright=sprite.get_right(s)
     egg_left=sprite.get_left(e)
     if egg_left+4>shelfright:
+        sprite.hide(egg)
         return False
 
     while not sprite.is_collide_sprite(e,s):
@@ -98,6 +99,7 @@ def prizemli_na_polky2(e,s):
     shelfleft=sprite.get_left(s)
     egg_right=sprite.get_right(e)
     if egg_right-4<shelfleft:
+        sprite.hide(egg)
         return False
 
     while not sprite.is_collide_sprite(e,s):
@@ -125,8 +127,8 @@ def eggspawn():
         x,y=[5,5]
     else:
         x,y=[635,5]
-    egggame = sprite.add("egg", x, y, "egg")
-    lists.append(egggame)
+    egg = sprite.add("egg", x, y, "egg")
+    lists.append(egg)
 
 
 @wrap.always()
@@ -142,10 +144,10 @@ def basket():
         eggwhich("woolfdown", True)
 
 
-def eggwhich(sprite,reverse):
-    global egggame,amountegg,egglist
-    if sprite.is_collide_sprite(egggame,woolf) and sprite.get_costume(woolf)==sprite and sprite.get_reverse_x(woolf,reverse) and sprite.is_visible(egggame):
-        sprite.hide(egggame)
+def eggwhich(costum,reverse):
+    global egg,amountegg,egglist
+    if sprite.is_collide_sprite(egg,woolf) and sprite.get_costume(woolf)==costum and sprite.get_reverse_x(woolf)==reverse and sprite.is_visible(egg):
+        sprite.hide(egg)
         amountegg+=1
         sprite_text.set_text(amount, "eggs: " + str(amountegg))
 
