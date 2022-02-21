@@ -133,21 +133,21 @@ def eggspawn():
 
 @wrap.always()
 def basket():
-    global egg,amountegg,egglist
     for egg in egglist:
-        eggwhich("woolfup",False)
+        eggwhich("woolfup",False,egg,egglist)
     for egg in egglist2:
-        eggwhich("woolfdown", False)
+        eggwhich("woolfdown", False,egg,egglist2)
     for egg in egglist3:
-        eggwhich("woolfup", True)
+        eggwhich("woolfup", True,egg,egglist3)
     for egg in egglist4:
-        eggwhich("woolfdown", True)
+        eggwhich("woolfdown", True,egg,egglist4)
 
 
-def eggwhich(costum,reverse):
-    global egg,amountegg,egglist
+def eggwhich(costum,reverse,egg,egglis):
+    global amountegg
     if sprite.is_collide_sprite(egg,woolf) and sprite.get_costume(woolf)==costum and sprite.get_reverse_x(woolf)==reverse and sprite.is_visible(egg):
-        sprite.hide(egg)
+        sprite.remove(egg)
+        egglis.remove(egg)
         amountegg+=1
         sprite_text.set_text(amount, "eggs: " + str(amountegg))
 
